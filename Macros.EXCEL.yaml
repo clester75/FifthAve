@@ -1,5 +1,5 @@
 name: Macros
-description: Create a new snippet from a blank template.
+description: Macros into Javascript
 host: EXCEL
 api_set: {}
 script:
