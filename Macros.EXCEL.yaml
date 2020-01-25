@@ -4,7 +4,10 @@ host: EXCEL
 api_set: {}
 script:
   content: |
-    $("#run").click(() => tryCatch(run));
+    $("#sort_invoice").click(() => tryCatch(run_sort_invoice));
+
+    $("#schedule_rollover").click(() => tryCatch(run_schedule_rollover));
+
     function Sort_Invoices(context) {
       var sheet = context.workbook.worksheets.getItem("Invoices");
 
@@ -25,38 +28,83 @@ script:
         }
       ]);
     }
-    async function run() {
+
+    function Schedule_Rollover(context) {
+      var next_weeks_schedule = context.workbook.worksheets.getItem("Next Weeks Schedule");
+
+      var current_sechdule = context.workbook.worksheets.getItem("Current Schedule");
+
+      var next_week = next_weeks_schedule.getRange("A8:V65");
+      var Current_se = current_sechdule.getRange("A8");
+      Current_se.copyFrom(next_week, "All", false, false);
+
+      next_week = next_weeks_schedule.getRange("C70:V70");
+      Current_se = current_sechdule.getRange("C70:D70");
+      Current_se.copyFrom(next_week, "All", false, false);
+
+      next_week = next_weeks_schedule.getRange("C74:D74");
+      Current_se = current_sechdule.getRange("C74:D74");
+      Current_se.copyFrom(next_week, "All", false, false);
+
+      next_week = next_weeks_schedule.getRange("I74:J74");
+      Current_se = current_sechdule.getRange("I74:J74");
+      Current_se.copyFrom(next_week, "All", false, false);
+    }
+    function New_Week() {}
+    function New_Period() { }
+
+    async function run_sort_invoice() {
       await Excel.run(async (context) => {
+        //function call
         Sort_Invoices(context);
 
         return context.sync().then(function() {
-          console.log("The rangs has been sorted");
+          console.log("Rangs have been sorted successfully");
         });
 
         await context.sync();
       });
     }
 
-    /** Default helper for invoking an action and handling errors. */
+    async function run_schedule_rollover() {
+      await Excel.run(async (context) => {
+        //function call
+        Schedule_Rollover(context);
+
+        return context.sync().then(function () {
+          console.log("Next weeks schedule has been moved to current schedule successfully");
+        });
+
+        await context.sync();
+      });
+    }
+
     async function tryCatch(callback) {
       try {
         await callback();
       } catch (error) {
-        // Note: In a production add-in, you'd want to notify the user through your add-in's UI.
         console.error(error);
       }
     }
   language: typescript
 template:
   content: |-
-    <button id="run" class="ms-Button">
+    <button id="sort_invoice" class="ms-Button">
         <span class="ms-Button-label">Sort Invoices</span>
+    </button>
+    </br>
+    <button id="schedule_rollover" class="ms-Button">
+        <span class="ms-Button-label">Schedule_Rollover</span>
     </button>
   language: html
 style:
   content: |-
     section.samples {
         margin-top: 20px;
+    }
+
+    .ms-Button{
+      margin-top: 10px;
     }
 
     section.samples .ms-Button, section.setup .ms-Button {
