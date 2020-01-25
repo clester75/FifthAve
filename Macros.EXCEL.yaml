@@ -36,7 +36,7 @@ script:
 
       var next_week = next_weeks_schedule.getRange("A8:V65");
       var Current_se = current_sechdule.getRange("A8");
-      Current_se.copyFrom(next_week, "All", false, false);
+      Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
 
       next_week = next_weeks_schedule.getRange("C70:V70");
       Current_se = current_sechdule.getRange("C70:D70");
@@ -44,11 +44,11 @@ script:
 
       next_week = next_weeks_schedule.getRange("C74:D74");
       Current_se = current_sechdule.getRange("C74:D74");
-      Current_se.copyFrom(next_week, "All", false, false);
+      Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
 
       next_week = next_weeks_schedule.getRange("I74:J74");
       Current_se = current_sechdule.getRange("I74:J74");
-      Current_se.copyFrom(next_week, "All", false, false);
+      Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
     }
     function New_Week() {}
     function New_Period() { }
