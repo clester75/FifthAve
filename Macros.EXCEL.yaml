@@ -283,10 +283,12 @@ style:
   content: |-
     section.samples {
         margin-top: 20px;
+        text-align: center;
     }
 
     .ms-Button{
       margin-top: 10px;
+      width:200px;
     }
 
     section.samples .ms-Button, section.setup .ms-Button {
