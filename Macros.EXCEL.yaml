@@ -8,6 +8,8 @@ script:
 
     $("#schedule_rollover").click(() => tryCatch(run_schedule_rollover));
 
+    $("#new_Period").click(() => tryCatch(run_new_Period));
+
     function Sort_Invoices(context) {
       var sheet = context.workbook.worksheets.getItem("Invoices");
 
@@ -51,9 +53,66 @@ script:
       Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
     }
     function New_Week() {}
-    function New_Period() {
+    function New_Period(context) {
       //New_Period Macro
       //Starts new period by erasing Previous Week Sales and Cost Data
+      var sheet = context.workbook.worksheets.getActiveWorksheet();
+
+      sheet.getRange("I7:J16").clear(Excel.ClearApplyTo.contents);
+      sheet.getRange("I20").clear(Excel.ClearApplyTo.contents);
+      sheet.getRange("J22:J25").clear(Excel.ClearApplyTo.contents);
+      sheet.getRange("B33:E33").clear(Excel.ClearApplyTo.contents);
+
+      var Inventory_sheet = context.workbook.worksheets.getItem("Inventory");
+      Inventory_sheet.getRange("D4").copyFrom("O4:O26", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O4:O26").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D31").copyFrom("O31:O53", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O31:O53").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D58").copyFrom("O58:O92", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O58:O92").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D97").copyFrom("O97:O133", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O97:O133").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D138").copyFrom("O138:O176", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O138:O176").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D181").copyFrom("O181:O201", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O181:O201").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D206").copyFrom("O206:O214", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O206:O214").clear(Excel.ClearApplyTo.contents);
+
+      Inventory_sheet.getRange("D219").copyFrom("O219:O227", Excel.RangeCopyType.values, false, false);
+      sheet.getRange("O219:O227").clear(Excel.ClearApplyTo.contents);
+
+      var Invoices_sheet = context.workbook.worksheets.getItem("Invoices");
+      Invoices_sheet.getRange("B5:K50").clear(Excel.ClearApplyTo.contents);
+      Invoices_sheet.getRange("B53:K63").clear(Excel.ClearApplyTo.contents);
+
+      var Sales_sheet = context.workbook.worksheets.getItem("Sales");
+      Sales_sheet.getRange("B5:G17").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I5:I17").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B19:G21").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I19:I21").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B23:G23").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I23").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B25:G31").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I25:I31").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B33:G36").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I33:I36").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B38:G41").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I38:I41").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B43:G43").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I43").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B45:G45").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("I45").clear(Excel.ClearApplyTo.contents);
+      Sales_sheet.getRange("B4").clear(Excel.ClearApplyTo.contents);
+
+      Invoices_sheet.getRange("B5").select;
+      Inventory_sheet.getRange("O4").select;
     }
 
     async function run_sort_invoice() {
@@ -72,23 +131,23 @@ script:
     async function run_schedule_rollover() {
       await Excel.run(async (context) => {
         //function call
-       // Schedule_Rollover(context);
-
-        var sheet = context.workbook.worksheets.getActiveWorksheet();
-        
-        sheet.getRange("I7:J16").clear(Excel.ClearApplyTo.contents)
-        sheet.getRange("I20").clear(Excel.ClearApplyTo.contents)
-        sheet.getRange("J22:J25").clear(Excel.ClearApplyTo.contents)
-        sheet.getRange("B33:E33").clear(Excel.ClearApplyTo.contents)
-        
-        var Inventory_sheet = context.workbook.worksheets.getItem("Inventory");
-        Inventory_sheet.getRange("D4").copyFrom("O4:O26",Excel.RangeCopyType.values,false,false)
-        sheet.getRange("O4:O26").clear(Excel.ClearApplyTo.contents)
-
-        Inventory_sheet.getRange("D31").copyFrom("O31:O53", Excel.RangeCopyType.values, false, false)
+        Schedule_Rollover(context);
 
         return context.sync().then(function() {
           console.log("Next weeks schedule has been moved to current schedule successfully");
+        });
+
+        await context.sync();
+      });
+    }
+
+    async function run_new_Period() {
+      await Excel.run(async (context) => {
+        //function call
+        New_Period(context);
+
+        return context.sync().then(function() {
+          console.log("New period has started by erasing Previous Week Sales and Cost Data successfully");
         });
 
         await context.sync();
@@ -104,13 +163,17 @@ script:
     }
   language: typescript
 template:
-  content: |-
+  content: |
     <button id="sort_invoice" class="ms-Button">
         <span class="ms-Button-label">Sort Invoices</span>
     </button>
     </br>
     <button id="schedule_rollover" class="ms-Button">
-        <span class="ms-Button-label">Schedule_Rollover</span>
+        <span class="ms-Button-label">Schedule Rollover</span>
+    </button>
+    </br>
+    <button id="new_Period" class="ms-Button">
+        <span class="ms-Button-label">New Period</span>
     </button>
   language: html
 style:
