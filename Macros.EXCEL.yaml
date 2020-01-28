@@ -51,7 +51,10 @@ script:
       Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
     }
     function New_Week() {}
-    function New_Period() { }
+    function New_Period() {
+      //New_Period Macro
+      //Starts new period by erasing Previous Week Sales and Cost Data
+    }
 
     async function run_sort_invoice() {
       await Excel.run(async (context) => {
@@ -69,9 +72,22 @@ script:
     async function run_schedule_rollover() {
       await Excel.run(async (context) => {
         //function call
-        Schedule_Rollover(context);
+       // Schedule_Rollover(context);
 
-        return context.sync().then(function () {
+        var sheet = context.workbook.worksheets.getActiveWorksheet();
+        
+        sheet.getRange("I7:J16").clear(Excel.ClearApplyTo.contents)
+        sheet.getRange("I20").clear(Excel.ClearApplyTo.contents)
+        sheet.getRange("J22:J25").clear(Excel.ClearApplyTo.contents)
+        sheet.getRange("B33:E33").clear(Excel.ClearApplyTo.contents)
+        
+        var Inventory_sheet = context.workbook.worksheets.getItem("Inventory");
+        Inventory_sheet.getRange("D4").copyFrom("O4:O26",Excel.RangeCopyType.values,false,false)
+        sheet.getRange("O4:O26").clear(Excel.ClearApplyTo.contents)
+
+        Inventory_sheet.getRange("D31").copyFrom("O31:O53", Excel.RangeCopyType.values, false, false)
+
+        return context.sync().then(function() {
           console.log("Next weeks schedule has been moved to current schedule successfully");
         });
 
