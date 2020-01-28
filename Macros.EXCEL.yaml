@@ -10,6 +10,8 @@ script:
 
     $("#new_Period").click(() => tryCatch(run_new_Period));
 
+    $("#new_Week").click(() => tryCatch(run_new_Week));
+
     function Sort_Invoices(context) {
       var sheet = context.workbook.worksheets.getItem("Invoices");
 
@@ -52,7 +54,7 @@ script:
       Current_se = current_sechdule.getRange("I74:J74");
       Current_se.copyFrom(next_week, Excel.RangeCopyType.values, false, false);
     }
-    function New_Week() {}
+    function New_Week(context) {}
     function New_Period(context) {
       //New_Period Macro
       //Starts new period by erasing Previous Week Sales and Cost Data
@@ -154,6 +156,21 @@ script:
       });
     }
 
+    async function run_new_Week() {
+      await Excel.run(async (context) => {
+        //function call
+        //New_Week(context);
+
+        
+
+        return context.sync().then(function () {
+          console.log("Numbers have been rolled over to a new Week successfully");
+        });
+
+        await context.sync();
+      });
+    }
+
     async function tryCatch(callback) {
       try {
         await callback();
@@ -164,16 +181,20 @@ script:
   language: typescript
 template:
   content: |
+    <button id="new_Week" class="ms-Button">
+        <span class="ms-Button-label">New Week</span>
+    </button>
+    </br>
+    <button id="new_Period" class="ms-Button">
+        <span class="ms-Button-label">New Period</span>
+    </button>
+    </br>
     <button id="sort_invoice" class="ms-Button">
         <span class="ms-Button-label">Sort Invoices</span>
     </button>
     </br>
     <button id="schedule_rollover" class="ms-Button">
         <span class="ms-Button-label">Schedule Rollover</span>
-    </button>
-    </br>
-    <button id="new_Period" class="ms-Button">
-        <span class="ms-Button-label">New Period</span>
     </button>
   language: html
 style:
