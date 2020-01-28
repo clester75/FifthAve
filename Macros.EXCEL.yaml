@@ -161,7 +161,89 @@ script:
         //function call
         //New_Week(context);
 
+
+        var operating_report_sheet = context.workbook.worksheets.getItem("Operating Report");
+
+        operating_report_sheet.getRange("I7").copyFrom("L7:M16", Excel.RangeCopyType.values, false, false);
         
+        operating_report_sheet.getRange("I20").copyFrom("L20", Excel.RangeCopyType.values, false, false);
+
+        operating_report_sheet.getRange("J22").copyFrom("M22:M25", Excel.RangeCopyType.values, false, false);
+
+        operating_report_sheet.getRange("B33:C33").copyFrom("B34:E34", Excel.RangeCopyType.values, false, false);
+
+        var Inventory_sheet = context.workbook.worksheets.getItem("Inventory");
+
+        Inventory_sheet.getRange("D4").copyFrom("O4:O26", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O4:O26").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D31").copyFrom("O31:O53", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O31:O53").clear(Excel.ClearApplyTo.contents);
+        
+        Inventory_sheet.getRange("D58").copyFrom("O58:O92", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O58:O92").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D97").copyFrom("O97:O133", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O97:O133").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D138").copyFrom("O138:O176", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O138:O176").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D181").copyFrom("O181:O201", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O181:O201").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D206").copyFrom("O206:O214", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O206:O214").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D219").copyFrom("O219:O227", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O219:O227").clear(Excel.ClearApplyTo.contents);
+
+        Inventory_sheet.getRange("D219").copyFrom("O219:O227", Excel.RangeCopyType.values, false, false);
+        Inventory_sheet.getRange("O219:O227").clear(Excel.ClearApplyTo.contents);
+
+        var Invoices_sheet = context.workbook.worksheets.getItem("Invoices");
+        Invoices_sheet.getRange("B5:K50").clear(Excel.ClearApplyTo.contents);
+
+        Invoices_sheet.getRange("B53:K63").clear(Excel.ClearApplyTo.contents);
+
+        var Sales_sheet = context.workbook.worksheets.getItem("Sales");
+        Sales_sheet.getRange("B5:G17").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I5:I17").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B19:G20").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I19:I20").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B21:G21").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I21").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B23:G23").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I23").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B25:G31").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I25:I31").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B33:G36").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I33:I36").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B38:G41").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I38:I41").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B43:G43").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I43").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B45:G45").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("I45").clear(Excel.ClearApplyTo.contents);
+
+        Sales_sheet.getRange("B4").clear(Excel.ClearApplyTo.contents);
 
         return context.sync().then(function () {
           console.log("Numbers have been rolled over to a new Week successfully");
