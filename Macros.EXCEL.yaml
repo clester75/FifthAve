@@ -4,6 +4,7 @@ host: EXCEL
 api_set: {}
 script:
   content: |
+    var password = "Fifthavenue1"
     $("#sort_invoice").click(() => tryCatch(run_sort_invoice));
 
     $("#schedule_rollover").click(() => tryCatch(run_schedule_rollover));
@@ -137,7 +138,6 @@ script:
       Sales_sheet.getRange("I45").clear(Excel.ClearApplyTo.contents);
 
       Sales_sheet.getRange("B4").clear(Excel.ClearApplyTo.contents);
-
     }
     function New_Period(context) {
       //New_Period Macro
@@ -203,11 +203,13 @@ script:
 
     async function run_sort_invoice() {
       await Excel.run(async (context) => {
+        context.workbook.protection.unprotect(password);
         //function call
         Sort_Invoices(context);
 
         return context.sync().then(function() {
           console.log("Rangs have been sorted successfully");
+          context.workbook.protection.protect(password);
         });
 
         await context.sync();
@@ -216,11 +218,13 @@ script:
 
     async function run_schedule_rollover() {
       await Excel.run(async (context) => {
+        context.workbook.protection.unprotect(password);
         //function call
         Schedule_Rollover(context);
 
         return context.sync().then(function() {
           console.log("Next weeks schedule has been moved to current schedule successfully");
+          context.workbook.protection.protect(password);
         });
 
         await context.sync();
@@ -230,10 +234,12 @@ script:
     async function run_new_Period() {
       await Excel.run(async (context) => {
         //function call
+        context.workbook.protection.unprotect(password);
         New_Period(context);
 
         return context.sync().then(function() {
           console.log("New period has started by erasing Previous Week Sales and Cost Data successfully");
+          context.workbook.protection.protect(password);
         });
 
         await context.sync();
@@ -243,12 +249,14 @@ script:
     async function run_new_Week() {
       await Excel.run(async (context) => {
         //function call
+        context.workbook.protection.unprotect(password);
         New_Week(context);
-
-        return context.sync().then(function () {
+        return context.sync().then(function() {
           console.log("Numbers have been rolled over to a new Week successfully");
+          context.workbook.protection.protect(password);
+        
         });
-
+      
         await context.sync();
       });
     }
